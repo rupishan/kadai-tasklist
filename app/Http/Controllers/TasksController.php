@@ -15,9 +15,21 @@ class TasksController extends Controller
      */
     public function index()
     {
-        $tasks = Task::all();
+        $data = [];
+        if(\Auth::check()){//認証済みの場合
+            //認証済みユーザを取得
+            $user = \Auth::user();
+            //ユーザの投稿の一覧を作成日時の降順で取得
+             $tasks = $user->tasks()->orderBy('created_at','desc')->paginate(10);
         
-        return view('tasks.index', ['tasks' => $tasks, ]);
+            $data =[
+                'user'=>$user,
+                'tasks'=>$tasks,
+            ];
+        }
+        
+        //Welcomeビューでそれらを表示
+        return view('welcome',$data);
     }
 
     /**
@@ -45,13 +57,19 @@ class TasksController extends Controller
             'status' => 'required|max:10',
             'content' => 'required|max:255',
         ]);
+        //認証済みユーザ(閲覧者)の投稿として作成(リクエストされた値をもとに作成)
+        $request->user()->tasks()->create([
+            'status'=>$request->status,
+            'content'=>$request->content,
+        ]);
         
         $task = new Task;
         $task->status = $request->status;
         $task->content = $request->content;
         $task->save();
         
-        return redirect('/');
+        //前のURLへリダイレクトさせる
+        return back();
     }
 
     /**
@@ -111,10 +129,14 @@ class TasksController extends Controller
      */
     public function destroy($id)
     {
-        $task = Task::findOrFail($id);
+        $task = \App\Task::findOrFail($id);
         
-        $task->delete();
+         // 認証済みユーザ（閲覧者）がその投稿の所有者である場合は、投稿を削除
+         if(\Auth::id() === $task->user_id){
+             $task->delete();
+         }
         
-        return redirect('/');
+        //前のURLへリダイレクトさせる
+        return back();
     }
 }

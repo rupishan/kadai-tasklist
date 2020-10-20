@@ -11,6 +11,8 @@
             <ul class="navbar-nav mr-auto"></ul>
             <ul class="navbar-nav">
                 @if (Auth::check())
+                    {{-- メッセージ作成ページへのリンク --}}
+                    <li class="nav-item">{!! link_to_route('tasks.create', '新規タスクの投稿',[],['class' => 'nav-link']) !!} </li>
                     <li class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">{{ Auth::user()->name }}</a>
                         <ul class="dropdown-menu dropdown-menu-right">
@@ -19,8 +21,6 @@
                         </ul>
                     </li>
                 @else
-                    {{-- メッセージ作成ページへのリンク --}}
-                    <li class="nav-item">{!! link_to_route('tasks.create', '新規タスクの投稿',[],['class' => 'nav-link']) !!} </li>
                     {{-- ユーザ登録ページへのリンク --}}
                     <li class="nav-item">{!! link_to_route('signup.get', 'Signup', [], ['class' => 'nav-link']) !!}</li>
                     {{-- ログインページへのリンク --}}
