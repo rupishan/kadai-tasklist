@@ -38,18 +38,12 @@ class User extends Authenticatable
     ];
     
     /**
-     * このユーザが所有するタスクの投稿。（ Micropostモデルとの関係を定義)
+     * このユーザが所有するタスクの投稿。（Taskモデルとの関係を定義)
     */
     public function tasks()
     {
         return $this->hasMany(Task::class);
     }
     
-    /**
-     * このユーザに関係するモデルの件数をロードする。
-    */
-    public function loadRelationshipCounts()
-    {
-        $this->loadCount('tasks');
-    }
+   
 }

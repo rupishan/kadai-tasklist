@@ -62,14 +62,14 @@ class TasksController extends Controller
             'status'=>$request->status,
             'content'=>$request->content,
         ]);
-        
+        /*
         $task = new Task;
         $task->status = $request->status;
         $task->content = $request->content;
         $task->save();
-        
-        //前のURLへリダイレクトさせる
-        return back();
+        */
+    
+        return redirect('/');
     }
 
     /**
@@ -137,6 +137,6 @@ class TasksController extends Controller
          }
         
         //前のURLへリダイレクトさせる
-        return back();
+        return redirect('/');
     }
 }
