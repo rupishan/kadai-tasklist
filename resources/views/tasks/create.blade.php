@@ -17,9 +17,9 @@
                 {!! Form::label('content', 'タスク:') !!}
                 {!! Form::text('content', null, ['class' => 'form-control']) !!}
             </div>
-            
+             @if (Auth::id() == $task->user_id)
             {!! Form::submit('投稿', ['class' => 'btn btn-primary']) !!}
-            
+            @endif
             {!!Form::close() !!}
         </div>
     </div>
