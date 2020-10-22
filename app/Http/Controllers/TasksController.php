@@ -69,12 +69,21 @@ class TasksController extends Controller
     public function show($id)
     {
         $task = \App\Task::findOrFail($id);
+        
+        // 他人の投稿ならリダイレクト
+        if(\Auth::id() !== $task->user_id){
+            return redirect('/');    
+        }
+        // 本来の処理
+        return view('tasks.show', ['task' => $task]);   
+        /*
         // 認証済みユーザ（閲覧者）がその投稿の所有者である場合は、投稿を表示
         if(\Auth::id() === $task->user_id){
              return view('tasks.show', ['task' => $task]);
          }
         //前のURLへリダイレクトさせる
         return redirect('/');
+        */
     }
         /*
         $task = Task::findOrFail($id);
@@ -89,12 +98,22 @@ class TasksController extends Controller
     public function edit($id)
     {
         $task = \App\Task::findOrFail($id);
+        
+        // 他人の投稿ならリダイレクト
+        if(\Auth::id() !== $task->user_id){
+            return redirect('/');    
+        }
+        // 本来の処理
+        return view('tasks.edit', ['task' => $task]);   
+        /*
+        $task = \App\Task::findOrFail($id);
         // 認証済みユーザ（閲覧者）がその投稿の所有者である場合は、投稿を編集
         if(\Auth::id() === $task->user_id){
              return view('tasks.edit', ['task' => $task,]);
          }
         //前のURLへリダイレクトさせる
         return redirect('/');
+        */
     }
         /*
         $task = Task::findOrFail($id);
