@@ -133,17 +133,12 @@ class TasksController extends Controller
             'content' => 'required|max:255',
         ]);
         
-        //認証済みユーザ(閲覧者)の投稿として作成(リクエストされた値をもとに作成)
-        $request->user()->tasks()->create([
-            'status'=>$request->status,
-            'content'=>$request->content,
-        ]);
-        /*
+        
         $task = Task::findOrFail($id);
         $task->status = $request->status;
         $task->content = $request->content;
         $task->save();
-        */
+
         return redirect('/');
     }
     /**
